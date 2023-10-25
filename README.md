@@ -1,6 +1,6 @@
 ![Static Badge](https://img.shields.io/badge/STATUS-Em_Desenvolvimento-FFC000)
 ># Sprint 1 - Linux 
-<div align="center"> <img src="https://github.com/bmsousa9/images/assets/111213549/190adaed-8728-4bf0-82fe-97c96eff0912" width="400px" /> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/images/assets/111213549/3f32401e-bd7f-41a5-b5b5-d3caa476e4bd" width="px" /> </div>
 
 
 
