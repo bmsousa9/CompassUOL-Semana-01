@@ -15,4 +15,7 @@ Reinstalar a VM sem interface gráfica, instalar uma nova VM, configurar IP fixo
 
 
 ># Desafio 3 ![Static Badge](https://img.shields.io/badge/STATUS-Em_Desenvolvimento-FFC000)
-Na VM01 - Instalar o Mariadb, na VM02 - Instalar o Wordpress, no NFS salvar os estaticos do wordpress, criar a documentação do processo e realizar a apresentação técnica.
+Na VM01 - Instalar o Mariadb, na VM02 - Instalar o Wordpress, no NFS salvar os estaticos do wordpress.
+
+
+Agora, vamos à <a href="https://github.com/bmsousa9/CompassUOL-Semana-02" target="_blank" rel="noopener noreferrer"> Sprint 2</a>.
