@@ -89,14 +89,98 @@ Reinstalar a VM sem interface gráfica, instalar uma nova VM, configurar IP fixo
 ### Instalar o Oracle Linux 8.8, sem interface gráfica
 
 Refiz todos os passos anteriores para criar uma nova VM, porém dessa vez sem interface gráfica. 
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/f3a3684b-e0de-417f-b6df-6be26cd78181"/> </div>
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/ba588211-8018-48fd-896a-9f9e0e33b384"/> </div>
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/d3007a12-5ebe-404b-8329-6ce1e07749ff"/> </div>
-<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/041d4bc3-2dbb-4d43-8c8d-217cd9ecdfa7"/> </div>
+
+### Configurar o IP fixo na Máquina Virtual
+
+Para iniciar a configuração do IP fixo, é importante digitar `root` em localhost e em seguida digitar a senha configurada na instalação do Oracle Linux 8.8.
+```
+root
+[senha configurada na instalação]
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/b9e1ca16-6104-4416-bba2-770b650a9390"/> </div>
+
+Para alterar algumas configurações, utilizei `nmcli` que é uma ferramenta para controlar o NetworkManager, que é usado para gerenciar conexões de rede. Com isso consegui alterar  a interface de rede `enp0s3`.
+```
+nmcli con mod enp0s3 ipv4.adresses 192.168.0.50/24
+nmcli con mod enp0s3 ipv4.gateway 192.168.0.1
+nmcli con mod enp0s3 ipv4.dns "8.8.8.8 8.8.4.4"
+nmcli con mod enp0s3 ipv4.method manual
+```
++ `ipv4.adresses 192.168.0.50/24`define o endereço IP para 192.168.0.50 com máscara de sub-rede de 24, ou seja, 255.255.255.0
++ `ipv4.gateway 192.168.0.1` define o gateway padrão como 192.168.0.1
++ `ipv4.dns "8.8.8.8 8.8.4.4"`define que servidores DNS que são os públicos do Google
++ `ipv4.method manual` define que as configurações não são automáticas por DHCP
+
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/36a76dbf-8711-46ef-b564-6cbcd02326af"/> </div>
+
+Ao fazer essas configurações, estabeleci conexão de rede para interface `enp0s3` .
+```
+nmcli con up enp0s3
+```
+Com isso, abri o editor `nano` para estabelecer uma última alteração.
+```
+nano /etc/sysconfig/network-scripts/ifcfg-enp0s3
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/af2187b7-0261-4843-9fcc-0902beb8187f"/> </div>
+
+Com a alteração de parâmetro, indica que o endereço IP é definido manualmente e permanecerá inalterado a menos que seja manualmente modificado, ou seja, é empregado nos arquivos de configuração de rede do Linux para estabelecer a forma como um endereço IP é obtido para uma interface de rede, que nesse caso é manual e não DHCP.
+```
+BOOTPROTO=static
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/f06b0edf-7434-4453-a883-62fafd0da19d"/> </div>
+
+Agora ficou pronta a configuração de IP fixo na VM01 e reiniciei o `NetworkManager` para que as modificações sejam aplicadas e, logo em seguida, usei um `ifconfig` para visualizar o que havia acontecido.
+```
+systemctl restart NetworkManager
+ifconfig
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/b7680ff9-64fb-4e53-8ecc-e40d2934c7ea"/> </div>
 
 
+### Configurar o IP fixo na outra Máquina Virtual
+
+
+Para criar uma outra VM com outro IP fixo, voltei ao VirtalBox, criei um snapshot da VM01, em seguida desliguei a VM01 e clonei essa máquina apenas alterando o nome dela para VM02.
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/add845fa-5ea7-47f5-8708-99eff96567b8"/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/68a21a0a-d146-4c50-bd71-cd1e5ae13e0a"/> </div>
+
+Já na VM02, tratei de alterar o IP fixo para `192.168.0.51`.
+```
+nmcli con mod enp0s3 ipv4.addresses 192.168.0.51/24
+nmcli con up enp0s3
+systemctl restart NetworkManager
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/983f42f1-9739-4111-9add-799032014d3a"/> </div>
+
+Assim que conclui, fiz uma verificação com `ifconfig` para saber se estava tudo certo.
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/348b9ec3-c6fd-4ddf-b705-5cc18f3acc78"/> </div>
+
+Liguei novamente a VM01 no VirtualBox e fiz o ping para VM02.
+```
+ping @192.168.0.51
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/e822835d-b46c-49e1-8633-42709dbdaf13"/> </div>
+
+Fiz o ping no caminho inverso, agora da VM02 para VM01.
+```
+ping 192.168.0.50
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/e822835d-b46c-49e1-8633-42709dbdaf13"/> </div>
+
+### Configurar o NFS nas VM01 e VM02
+
+ENTRA
+```
+ENTRA
+```
+<div align="center"> <img src=""/> </div>
 
 ># Desafio 3 ![Static Badge](https://img.shields.io/badge/STATUS-Em_Desenvolvimento-FFC000)
 Na VM01 - Instalar o Mariadb, na VM02 - Instalar o Wordpress, no NFS salvar os estaticos do wordpress.
 
+<div align="center"> <img src=""/> </div>
 
 Agora, vamos à <a href="https://github.com/bmsousa9/CompassUOL-Semana-02" target="_blank" rel="noopener noreferrer"> Sprint 2</a>.
