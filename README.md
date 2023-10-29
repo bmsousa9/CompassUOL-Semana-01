@@ -72,17 +72,27 @@ Logo após a reinicialização, surgiu uma tela para configuração de usuário 
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/e1527a8b-80ae-40f4-9eb5-e6978f44de77"/> </div>
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/78832e0e-6449-4844-a1e9-83c4ffcc204a"/> </div>
 
-O próximo passo é fazer logion com o usuário criado, que no meu caso foi Bruno Sousa. Em seguida, pequenos ajustes serão necessárias, como adição de contas caso queira, para utiliar o Oracle Linux 8.8.
+O próximo passo é fazer login com o usuário criado, que no meu caso foi Bruno Sousa. Em seguida, pequenos ajustes foram necessários, como a possível adição de contas (não o fiz), para utilizar o Oracle Linux 8.8.
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/ca062d84-7400-4921-b5ce-9710fcec2cda"/> </div>
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/4dd64d38-9b82-4a51-85e8-c4dcbf166fa2"/> </div>
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/2d5cd44b-58ac-42f6-8ed8-bed3bb408bd5"/> </div>
 
 A partir desse ponto, o sistema já está instalado e pronto para ser utilizado. O próximo passo é o Desafio 2.
 
+
+
 ># Desafio 2 ![Static Badge](https://img.shields.io/badge/STATUS-Resolvido-2e8b57)
 Reinstalar a VM sem interface gráfica, instalar uma nova VM, configurar IP fixo nos dois servidores, criar um NFS do servidor 1 para o servidor 2. 
 
-<div align="center"> <img src=""/> </div>
+
+
+### Instalar o Oracle Linux 8.8, sem interface gráfica
+
+Refiz todos os passos anteriores para criar uma nova VM, porém dessa vez sem interface gráfica. 
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/ba588211-8018-48fd-896a-9f9e0e33b384"/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/d3007a12-5ebe-404b-8329-6ce1e07749ff"/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/041d4bc3-2dbb-4d43-8c8d-217cd9ecdfa7"/> </div>
+
 
 
 ># Desafio 3 ![Static Badge](https://img.shields.io/badge/STATUS-Em_Desenvolvimento-FFC000)
