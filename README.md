@@ -9,7 +9,7 @@ Realizar a instalação de um servidor Oracle Linux 8.x em uma virtual box
 
 ### Instalar o VirtualBox
 
-O primeiro passo foi baixar uma versão do Oracle VM VirtualBox. Escolhi a versão 6.1 que apesar de ser antiga, recebeu um atualização recentemente.
+O primeiro passo foi baixar uma versão do Oracle VM VirtualBox. Escolhi a versão 6.1 que apesar de ser antiga, recebeu uma atualização recentemente.
 ```
 https://www.virtualbox.org/wiki/Downloads
 ```
@@ -18,14 +18,14 @@ https://www.virtualbox.org/wiki/Downloads
 
 ### Baixar o Oracle Linux 8.x
 
-Para iniciar a instalação do Oracle Linux, inserir as credenciais no site da Oracle para fazer o login.
+Para iniciar a instalação do Oracle Linux, inseri as credenciais no site da Oracle para fazer o login.
 ```
 https://edelivery.oracle.com/
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/ea95f0ab-8c89-4be7-8189-71e9b225b059"/> </div>
 
 Na tela seguinte, precisei procurar pela imagem que precisava. Inseri `Oracle Linux` e a partir daí, apareceram várias versões dessa imagem. Escolhi `Oracle Linux 8.8` e cliquei em `Continue`.
-<div align="center"> <img src=""/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/060848c2-a3dd-4ce7-9bdd-0a9d923134ef"/> </div>
 
 Logo em seguida, selecionei a versão na caixa de diálogo e escolhi a versão de download para meu sistema `x86 64 bit` e cliquei em `Continue`. A partir daí apareceram outras telas para aceitar as políticas e concordei com tudo.
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/7240be14-f653-4398-8517-b05ba5ff79bd"/> </div>
@@ -93,6 +93,9 @@ Refiz todos os passos anteriores para criar uma nova VM, porém dessa vez sem in
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/ba588211-8018-48fd-896a-9f9e0e33b384"/> </div>
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/d3007a12-5ebe-404b-8329-6ce1e07749ff"/> </div>
 
+Também alterei na aba `Configuração`, em `Rede`, fiz a alteração de `NAT`para `Placa em modo Bridge` e cliquei em `OK`.
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/32ae39f4-f56a-421c-b710-397a21641879"/> </div>
+
 ### Configurar o IP fixo na Máquina Virtual
 
 Para iniciar a configuração do IP fixo, é importante digitar `root` em localhost e em seguida digitar a senha configurada na instalação do Oracle Linux 8.8.
@@ -109,10 +112,10 @@ nmcli con mod enp0s3 ipv4.gateway 192.168.0.1
 nmcli con mod enp0s3 ipv4.dns "8.8.8.8 8.8.4.4"
 nmcli con mod enp0s3 ipv4.method manual
 ```
-+ `ipv4.adresses 192.168.0.50/24`define o endereço IP para 192.168.0.50 com máscara de sub-rede de 24, ou seja, 255.255.255.0
-+ `ipv4.gateway 192.168.0.1` define o gateway padrão como 192.168.0.1
-+ `ipv4.dns "8.8.8.8 8.8.4.4"`define que servidores DNS que são os públicos do Google
-+ `ipv4.method manual` define que as configurações não são automáticas por DHCP
++ `ipv4.adresses 192.168.0.50/24`define o endereço IP para 192.168.0.50 com máscara de sub-rede de 24, ou seja, 255.255.255.0 ;
++ `ipv4.gateway 192.168.0.1` define o gateway padrão como 192.168.0.1 ;
++ `ipv4.dns "8.8.8.8 8.8.4.4"`define que servidores DNS que são os públicos do Google;
++ `ipv4.method manual` define que as configurações não são automáticas por DHCP.
 
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/36a76dbf-8711-46ef-b564-6cbcd02326af"/> </div>
 
@@ -143,7 +146,7 @@ ifconfig
 ### Configurar o IP fixo na outra Máquina Virtual
 
 
-Para criar uma outra VM com outro IP fixo, voltei ao VirtalBox, criei um snapshot da VM01, em seguida desliguei a VM01 e clonei essa máquina apenas alterando o nome dela para VM02.
+Para criar uma outra VM com outro IP fixo, voltei ao VirtualBox, criei um snapshot da VM01, em seguida desliguei a VM01 e clonei essa máquina apenas alterando o nome dela para VM02.
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/add845fa-5ea7-47f5-8708-99eff96567b8"/> </div>
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/68a21a0a-d146-4c50-bd71-cd1e5ae13e0a"/> </div>
 
@@ -158,28 +161,107 @@ systemctl restart NetworkManager
 Assim que conclui, fiz uma verificação com `ifconfig` para saber se estava tudo certo.
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/348b9ec3-c6fd-4ddf-b705-5cc18f3acc78"/> </div>
 
-Liguei novamente a VM01 no VirtualBox e fiz o ping para VM02.
+Liguei novamente a VM01 no VirtualBox e fiz o `ping` para VM02.
 ```
 ping @192.168.0.51
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/e822835d-b46c-49e1-8633-42709dbdaf13"/> </div>
 
-Fiz o ping no caminho inverso, agora da VM02 para VM01.
+Fiz o `ping` no caminho inverso, agora da VM02 para VM01.
 ```
 ping 192.168.0.50
 ```
-<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/e822835d-b46c-49e1-8633-42709dbdaf13"/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/be2714a4-a654-49db-bacc-fd043ebf29c3"/> </div>
 
-### Configurar o NFS nas VM01 e VM02
+### Configurar o NFS na VM01
 
-ENTRA
+Instalei o pacote de utilitários NFS que contém vários scripts necessários para montar, desmontar, gerenciar e analisar sistemas de arquivos NFS.
 ```
-ENTRA
+dnf install -y nfs-utils
 ```
-<div align="center"> <img src=""/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/2445c1ac-ff0c-4a92-8712-f5ee9d43797e"/> </div>
+
+Criei uma pasta que será compartilhada com a VM02 com comando `mkdir`.
+```
+mkdir /nfs-share
+```
+Em seguida, aloquei um espaço de 20 MB nesse diretório para verificar se é possível ter acesso a esse arquivo pela VM02.
+```
+fallocate -l 20MB /nfs-share/file1
+```
+Depois disso, `chmod` para alterar as permissões do arquivo, com `-R` para que esse diretório, todos os arquivos e diretórios filhos sejam alterados por `777` que o servidor e cliente podem ler, escrever e executar os arquivos no local `/nfs-share`, ou seja, que define as permissões de toda pasta para ler, gravar e executar para todos.
+```
+chmod -R 777 /nfs-share
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/62c0ead0-a6a2-40e9-97d0-4414aee854a3"/> </div>
+
+A partir daí, já é possível definir que a pasta que foi criada poderá ser vista pelo cliente NFS através do IP da VM02.
+```
+echo "/nfs-share 192.168.0.51(rw)" | tee -a /etc/exports > /dev/null
+```
++ `echo` define que será escrito no terminal;
++ `/nfs-share` define a pasta que será vista pelo cliente NFS;
++ `192.168.0.51` esse é o IP do cliente NFS, que nessa situação é ds VM02;
++ `(rw)` define que será de escrita e leitura para o IP definido;
++ `|` está recebendo todos os valores escritos até aqui e passa para o seguinte;
++ `tee` faz com que ele pegue as instruções;
++ `-a` essa opção insere, mas não subatitui os valores;
++ `/etc/exports` é o arquivo que se especifica quais diretórios serão compartilhados com os clientes NFS;
++ `/dev/null` mostra que não será escrito no terminal.
+
+Foi preciso usar os comandos a seguir para permitir que o firewall dará a passagem de tráfego de rede para o serviço NFS. Logo em seguida, foi reiniciado e listado.
+```
+firewall-cmd --permanent --zone=public --add-service=nfs
+firewall-cmd --reload
+firewall-cmd --list-all
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/5d71d84d-5d19-4305-a531-00e70ca7ccac"/> </div>
+
+
+Depois de tudo configurado na VM01, pude reiniciar o serviço NFS e manter que ele comece sempre na reinicialização. 
+```
+systemctl enable --now nfs-server
+```
+E assim exibir a lista de sistemas de arquivos exportados por um servidor NFS para verificar quais pastas estão sendo compartilhadas pelo serviço.
+```showmount -e
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/527dafdc-3598-45cc-857b-de2126d1bd9f"/> </div>
+
+
+
+### Configurar o NFS na VM02
+
+
+A primeira coisa que fiz foi atualizar o pacote de serviço NFS na VM02.
+```
+dnf install -y nfs-utils
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/e4624631-7555-4674-ab29-2d200f299b28"/> </div>
+
+Logo em seguida criei uma pasta que será montada na VM02 com comando `mkdir`.
+```
+mkdir /nfs-mount
+```
+<div align="center"> <img src="(https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/1d2368f3-4e27-4c5f-8002-2a3b9ebd2fd5"/> </div>
+
+
+Foi justamente nesse ponto que se tornou possível definir que a pasta que foi criada poderá ser montada pelo cliente NFS através servidor do IP da VM01.
+```
+echo "192.168.0.50:/nfs-share  /nfs-mount  nfs  rw  0 0" | sudo tee -a /etc/fstab > /dev/null
+```
+```
+sudo mount -a
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/850a1c4e-72f5-4f89-9b1e-236a2c4b2490"/> </div>
+
+Com isso, foi configurado o serviço NFS, resistindo a reinicialização nas VM01 e VM02. Próximo passo é o Desafio 3.
+
+
 
 ># Desafio 3 ![Static Badge](https://img.shields.io/badge/STATUS-Em_Desenvolvimento-FFC000)
 Na VM01 - Instalar o Mariadb, na VM02 - Instalar o Wordpress, no NFS salvar os estaticos do wordpress.
+
+
 
 <div align="center"> <img src=""/> </div>
 
