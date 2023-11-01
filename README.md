@@ -278,38 +278,35 @@ ENTRA
 systemctl start mariadb
 systemctl enable mariadb
 ```
-<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/1bdcd051-40e9-460a-b353-25910b7df50"/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/0be716af-0648-4023-a6e1-5ed56858e84f"/> </div>
 
 ENTRA
 ```
 mysql_secure_installation
 ```
-<div align="center"> <img src=""/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/b31f1079-a8fb-43be-82bd-de69fa4427c1"/> </div>
 
 ENTRA
 ```
 mysql -u root -p
 ```
-<div align="center"> <img src=""/> </div>
 
 ENTRA
 ```
 CREATE DATABASE wordpress;
 ```
-<div align="center"> <img src=""/> </div>
 
 ENTRA
 ```
 CREATE USER 'wordpress'@'localhost' IDENTIFIED BY 'wordpress_password';
 ```
-<div align="center"> <img src=""/> </div>
 
 ENTRA
 ```
 GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@ 'localhost';
 FLUSH PRIVILEGES;
 ```
-<div align="center"> <img src=""/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/1144869f-d288-424d-a5d9-25384d852a26"/> </div>
 
 
 ### Configuração do NFS na VM01
@@ -319,20 +316,23 @@ ENTRA
 ```
 nano /etc/exports
 ```
-<div align="center"> <img src=""/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/69f03202-aacb-4c4c-8f04-aa4752288486"/> </div>
+
+ENTRA
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/81a18494-3cd9-43d3-bf5d-d6319417f565"/> </div>
 
 ENTRA
 ```
 /var/lib/mysql 192.168.0.51(rw,sync,no_root_squash)
 ```
-<div align="center"> <img src=""/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/f0c97e08-8d95-4385-aa1e-c5ab7d1fdbdc"/> </div>
 
 ENTRA
 ```
 systemctl restart nfs-server
 showmount -e
 ```
-<div align="center"> <img src=""/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/bc8b710b-a280-4555-a898-33d07c28107b"/> </div>
 
 
 
