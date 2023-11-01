@@ -177,7 +177,7 @@ ping 192.168.0.50
 
 Instalei o pacote de utilitários NFS que contém vários scripts necessários para montar, desmontar, gerenciar e analisar sistemas de arquivos NFS.
 ```
-dnf install -y nfs-utils
+dnf install nfs-utils -y 
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/2445c1ac-ff0c-4a92-8712-f5ee9d43797e"/> </div>
 
@@ -223,7 +223,8 @@ Depois de tudo configurado na VM01, pude reiniciar o serviço NFS e manter que e
 systemctl enable --now nfs-server
 ```
 E assim exibir a lista de sistemas de arquivos exportados por um servidor NFS para verificar quais pastas estão sendo compartilhadas pelo serviço.
-```showmount -e
+```
+showmount -e
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/527dafdc-3598-45cc-857b-de2126d1bd9f"/> </div>
 
@@ -263,6 +264,150 @@ Na VM01 - Instalar o Mariadb, na VM02 - Instalar o Wordpress, no NFS salvar os e
 
 
 
+### Instalação e configuração do MariaDB
+
+
+ENTRA
+```
+dnf install mariadb-server -y
+```
 <div align="center"> <img src=""/> </div>
+
+ENTRA
+```
+systemctl start mariadb
+systemctl enable mariadb
+```
+<div align="center"> <img src=""/> </div>
+
+ENTRA
+```
+mysql_secure_installation
+```
+<div align="center"> <img src=""/> </div>
+
+ENTRA
+```
+mysql -u root -p
+```
+<div align="center"> <img src=""/> </div>
+
+ENTRA
+```
+CREATE DATABASE wordpress;
+```
+<div align="center"> <img src=""/> </div>
+
+ENTRA
+```
+CREATE USER 'wordpress'@'localhost' IDENTIFIED BY 'wordpress_password';
+```
+<div align="center"> <img src=""/> </div>
+
+ENTRA
+```
+GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@ 'localhost';
+FLUSH PRIVILEGES;
+```
+<div align="center"> <img src=""/> </div>
+
+
+### Configuração do NFS na VM01
+
+
+ENTRA
+```
+nano /etc/exports
+```
+<div align="center"> <img src=""/> </div>
+
+ENTRA
+```
+/var/lib/mysql 192.168.0.51(rw,sync,no_root_squash)
+```
+<div align="center"> <img src=""/> </div>
+
+ENTRA
+```
+systemctl restart nfs-server
+showmount -e
+```
+<div align="center"> <img src=""/> </div>
+
+
+
+### Configuração do NFS na VM02
+
+Como eu já havia feito o compartilhamento do servidor NFS, é importante editar o arquivo `/etc/fstab` com editor `nano`. Para isso, eu apaguei a linha `192.168.0.50:/nfs-share  /nfs-mount  nfs  rw  0 0`.
+```
+nano /etc/fstab
+```
+
+O passo seguinte foi a criação da pasta onde será montado o banco de dados da VM01.
+```
+mkdir /mnt/mariadb-shared
+```
+
+Com a pasta devidamente criada, tinha chegado a hora de estabelecer o cliente NFS na VM02.
+```
+echo "192.168.0.50:/var/lib/mysql  /mnt/mariadb-shared  nfs  rw  0 0" | sudo tee -a /etc/fstab > /dev/null
+```
+```
+mount -a
+```
+<div align="center"> <img src=""/> </div>
+
+Como curiosidade entrei no arquivo `/etc/fstab` como o `nano` mais uma vez, apenas para constatar `192.168.0.50:/var/lib/mysql  /mnt/mariadb-shared  nfs  rw  0 0`.
+```
+nano /etc/fstab
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/02f77684-06f2-4050-aa2a-c523e026a490"/> </div>
+
+
+### Instalação e configuração do Wordpress
+
+
+ENTRA
+```
+dnf install php php-{myqlnd,cli,xml,pdo,gd,xml,mbstring,json} -y
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/2000b13a-ae5a-4a34-8cab-cfc4f229e318"/> </div>
+
+ENTRA
+```
+dnf install dnf-utils httpd -y
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/2b7e2ef1-13bc-4355-8c20-b972517c20d9"/> </div>
+
+ENTRA
+```
+systemctl start httpd
+systemctl enable httpd
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/9a203f00-dfe2-45cc-90c7-2ffba36ddd68"/> </div>
+
+ENTRA
+```
+cd /var/www/html
+wget https://wordpress.org/latest.tar.gz
+tar -xvf latest.tar.gz
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/076bc2af-9d87-41bc-a29f-e5a6b52e5d67"/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/b551d66b-4c53-4834-96d3-f549223dc447"/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/d30cec04-aa10-4740-9f06-2716b29ae078"/> </div>
+
+ENTRA
+```
+firewall-cmd --permanent --add-service=http
+firewall-cmd --permanent --add-service=https
+firewall-cmd --reload
+```
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/78710d95-bc89-4d88-ac3e-d17d26eed85a"/> </div>
+
+ENTRA
+
+`http://192.168.0.51/wordpress`
+
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/15178c7b-7c51-444f-baa3-affad1416bfd"/> </div>
 
 Agora, vamos à <a href="https://github.com/bmsousa9/CompassUOL-Semana-02" target="_blank" rel="noopener noreferrer"> Sprint 2</a>.
