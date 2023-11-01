@@ -267,41 +267,41 @@ Na VM01 - Instalar o Mariadb, na VM02 - Instalar o Wordpress, no NFS salvar os e
 ### Instalação e configuração do MariaDB
 
 
-ENTRA
+A seguir o comando para instalação do MariaDB na VM01.
 ```
 dnf install mariadb-server -y
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/fb62f876-7fc6-4890-bfc8-d0f9a695cd70"/> </div>
 
-ENTRA
+Com a instalação do banco de dados concluída, consegui dar início `systemctl start` e habilitar com `systemctl enable`.
 ```
 systemctl start mariadb
 systemctl enable mariadb
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/0be716af-0648-4023-a6e1-5ed56858e84f"/> </div>
 
-ENTRA
+Fiz a instalação do MySQL, porém alguns passos adicionais foram necessarios, como criação de uma senha root, de usuário e algumas outras mais. Eu particularmente criei uma senha e um usuário para entender melhor o ambiente, mas como não é produção, então não seria necessário fazer isso.
 ```
 mysql_secure_installation
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/b31f1079-a8fb-43be-82bd-de69fa4427c1"/> </div>
 
-ENTRA
+Com a instalação do MySQL pronta, chegou a hora de criar um banco de dados. Para isso utilizei o comando para acessar o root.
 ```
 mysql -u root -p
 ```
 
-ENTRA
+Nomei o banco de dados como `wordpress` com o comando abaixo:
 ```
 CREATE DATABASE wordpress;
 ```
 
-ENTRA
+Em seguida criei um usuário `wordpress` com a senha `wordpress_password` no `local`.
 ```
 CREATE USER 'wordpress'@'localhost' IDENTIFIED BY 'wordpress_password';
 ```
 
-ENTRA
+A partir daí concedi todos os privilégios para o usuário que criei no local e atualizei a lista de privilégio.
 ```
 GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@ 'localhost';
 FLUSH PRIVILEGES;
