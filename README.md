@@ -338,12 +338,19 @@ showmount -e
 
 ### Configuração do NFS na VM02
 
-Como eu já havia feito o compartilhamento do servidor NFS, é importante editar o arquivo `/etc/fstab` com editor `nano`. Para isso, eu apaguei a linha `192.168.0.50:/nfs-share  /nfs-mount  nfs  rw  0 0`.
+Como eu já havia feito o compartilhamento do servidor NFS, foi importante editar o arquivo `/etc/fstab` com editor `nano`. Para isso, eu apaguei a linha `192.168.0.50:/nfs-share  /nfs-mount  nfs  rw  0 0`. Mas antes disso, desmontei `umount` a pasta em questão e em seguida a removi com `rmdir`.
+
+```
+umount /nfs-mount
+```
+```
+rmdir /nfs-mount
+```
 ```
 nano /etc/fstab
 ```
 
-O passo seguinte foi a criação da pasta onde será montado o banco de dados da VM01.
+O passo seguinte foi a criação da pasta onde foi montado o banco de dados da VM01.
 ```
 mkdir /mnt/mariadb-shared
 ```
@@ -355,13 +362,13 @@ echo "192.168.0.50:/var/lib/mysql  /mnt/mariadb-shared  nfs  rw  0 0" | sudo tee
 ```
 mount -a
 ```
-<div align="center"> <img src=""/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/a6794769-2ca4-4ed9-ac63-7c15781a3f76"/> </div>
 
 Como curiosidade entrei no arquivo `/etc/fstab` como o `nano` mais uma vez, apenas para constatar `192.168.0.50:/var/lib/mysql  /mnt/mariadb-shared  nfs  rw  0 0`.
 ```
 nano /etc/fstab
 ```
-<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/02f77684-06f2-4050-aa2a-c523e026a490"/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/15a9c5f7-3a13-4989-89cc-ee890890795c"/> </div>
 
 
 ### Instalação e configuração do Wordpress
