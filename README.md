@@ -251,7 +251,7 @@ Foi justamente nesse ponto que se tornou possível definir que a pasta que foi c
 echo "192.168.0.50:/nfs-share  /nfs-mount  nfs  rw  0 0" | sudo tee -a /etc/fstab > /dev/null
 ```
 ```
-sudo mount -a
+mount -a
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/850a1c4e-72f5-4f89-9b1e-236a2c4b2490"/> </div>
 
@@ -271,14 +271,14 @@ ENTRA
 ```
 dnf install mariadb-server -y
 ```
-<div align="center"> <img src=""/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/fb62f876-7fc6-4890-bfc8-d0f9a695cd70"/> </div>
 
 ENTRA
 ```
 systemctl start mariadb
 systemctl enable mariadb
 ```
-<div align="center"> <img src=""/> </div>
+<div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/1bdcd051-40e9-460a-b353-25910b7df50"/> </div>
 
 ENTRA
 ```
