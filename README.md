@@ -312,22 +312,22 @@ FLUSH PRIVILEGES;
 ### Configuração do NFS na VM01
 
 
-ENTRA
+Como já havíamos criado um servidor NFS anteriormente, iremos fazer apenas alguns ajustes para fzer a configuaração. Para isso, vamos editar `/etc/exports` apagando todas alinhas até aqui com o editor `nano`.
 ```
 nano /etc/exports
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/69f03202-aacb-4c4c-8f04-aa4752288486"/> </div>
 
-ENTRA
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/81a18494-3cd9-43d3-bf5d-d6319417f565"/> </div>
 
-ENTRA
+Logo depois disso, eu digitei a linha abaixo no editor e texto e salvei.
 ```
 /var/lib/mysql 192.168.0.51(rw,sync,no_root_squash)
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-01/assets/111213549/f0c97e08-8d95-4385-aa1e-c5ab7d1fdbdc"/> </div>
 
-ENTRA
+Em seguida reiniciei o servidor NFS com `systemctl restart` e depois verifiquei que ele era relacionado com `showmount -e
+`.
 ```
 systemctl restart nfs-server
 showmount -e
@@ -338,15 +338,11 @@ showmount -e
 
 ### Configuração do NFS na VM02
 
-Como eu já havia feito o compartilhamento do servidor NFS, foi importante editar o arquivo `/etc/fstab` com editor `nano`. Para isso, eu apaguei a linha `192.168.0.50:/nfs-share  /nfs-mount  nfs  rw  0 0`. Mas antes disso, desmontei `umount` a pasta em questão e em seguida a removi com `rmdir`.
+Voltando a VM02, como eu já havia feito o compartilhamento do servidor NFS, foi importante editar o arquivo `/etc/fstab` com editor `nano`. Para isso, eu apaguei a linha `192.168.0.50:/nfs-share  /nfs-mount  nfs  rw  0 0`. Mas antes disso, desmontei `umount` a pasta em questão e em seguida a removi com `rmdir`.
 
 ```
 umount /nfs-mount
-```
-```
 rmdir /nfs-mount
-```
-```
 nano /etc/fstab
 ```
 
@@ -358,8 +354,6 @@ mkdir /mnt/mariadb-shared
 Com a pasta devidamente criada, tinha chegado a hora de estabelecer o cliente NFS na VM02.
 ```
 echo "192.168.0.50:/var/lib/mysql  /mnt/mariadb-shared  nfs  rw  0 0" | sudo tee -a /etc/fstab > /dev/null
-```
-```
 mount -a
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/a6794769-2ca4-4ed9-ac63-7c15781a3f76"/> </div>
@@ -374,36 +368,53 @@ nano /etc/fstab
 ### Instalação e configuração do Wordpress
 
 
-ENTRA
+Antes da instalação do Wordpress, é importante "preparar o terreno" com a instalação do `PHP` para posterior configuração do servidor Apache para suportar o Wordpress.
 ```
 dnf install php php-{myqlnd,cli,xml,pdo,gd,xml,mbstring,json} -y
 ```
+
++ `dnf install` instalar pacotes usando o DNF;
++ `php` é o pacote principal do PHP;
++ `php-{myqlnd,cli,xml,pdo,gd,xml,mbstring,json}` instalar várias extensões do PHP;
+  + `myqlnd` conectar-se a bancos de dados MySQL;
+  + `cli` executar scripts PHP a partir da linha de comando;
+  + `xml` trabalhar com XML;
+  + `pdo` acessar bancos de dados usando o PHP Data Objects;
+  + `gd` criação dinâmica de imagens;
+  + `mbstring` manipulação de strings multibyte, útil para lidar com caracteres não latinos;
+  + `json` trabalhar com dados JSON;
++ `-y` sinaliza para assumir "sim" para todas as perguntas sem a interação do usuário.  
+
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/2000b13a-ae5a-4a34-8cab-cfc4f229e318"/> </div>
 
-ENTRA
+O próximo passo é a instalação do servidor Apache.
 ```
 dnf install dnf-utils httpd -y
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/2b7e2ef1-13bc-4355-8c20-b972517c20d9"/> </div>
 
-ENTRA
+Com o Apache instalado, consegui dar inicio com `systemctl start` e habilitar com `systemctl enable`.
 ```
 systemctl start httpd
 systemctl enable httpd
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/9a203f00-dfe2-45cc-90c7-2ffba36ddd68"/> </div>
 
-ENTRA
+A partir de agora, entrei no diretório `/var/www/html` para baixar a distribuição do Wordpress com o `wget` e em seguida extrair com `tar`. 
 ```
 cd /var/www/html
 wget https://wordpress.org/latest.tar.gz
 tar -xvf latest.tar.gz
 ```
++ `-x` extrai arquivos de um arquivo;
++ `-v` lista os arquivos processados de forma detalhada;
++ `-f` usa o arquivo de arquivo.
+
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/076bc2af-9d87-41bc-a29f-e5a6b52e5d67"/> </div>
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/b551d66b-4c53-4834-96d3-f549223dc447"/> </div>
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/d30cec04-aa10-4740-9f06-2716b29ae078"/> </div>
 
-ENTRA
+Outra situação importante é liberar o acesso `http` e `https` do firewall com o comando `firewall-cmd`.
 ```
 firewall-cmd --permanent --add-service=http
 firewall-cmd --permanent --add-service=https
@@ -411,9 +422,7 @@ firewall-cmd --reload
 ```
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/78710d95-bc89-4d88-ac3e-d17d26eed85a"/> </div>
 
-ENTRA
-
-`http://192.168.0.51/wordpress`
+Com o navegador aberto, digitei `http://192.168.0.51/wordpress` e finalmente a "mágica" aconteceu. 
 
 <div align="center"> <img src="https://github.com/bmsousa9/CompassUOL-Semana-02/assets/111213549/15178c7b-7c51-444f-baa3-affad1416bfd"/> </div>
 
