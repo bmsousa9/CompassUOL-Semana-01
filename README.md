@@ -1,3 +1,4 @@
+![Static Badge](https://img.shields.io/badge/STATUS-Resolvido-2e8b57)
 ># Sprint 1 - Linux 
 <div align="center"> <img src="https://github.com/bmsousa9/images/assets/111213549/3f32401e-bd7f-41a5-b5b5-d3caa476e4bd" width="px" /> </div>
 
