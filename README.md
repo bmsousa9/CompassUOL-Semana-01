@@ -259,7 +259,7 @@ Com isso, foi configurado o serviço NFS, resistindo a reinicialização nas VM0
 
 
 
-># Desafio 3 ![Static Badge](https://img.shields.io/badge/STATUS-Em_Desenvolvimento-FFC000)
+># Desafio 3 ![Static Badge](https://img.shields.io/badge/STATUS-Resolvido-2e8b57)
 Na VM01 - Instalar o Mariadb, na VM02 - Instalar o Wordpress, no NFS salvar os estaticos do wordpress.
 
 
